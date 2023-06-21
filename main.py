@@ -4,7 +4,7 @@ from utils.description_generation import generate_description
 from utils.html_generation import generate_html
 
 #Use the functions from the imported modules to perform the overall task
-file_path = 'examples/notebooks/GAN.ipynb'  # replace with your actual file path
+file_path = 'examples/notebooks/GAN.ipynb'  
 code_elements = process_file(file_path)
 
 # Extract the code from the Jupyter notebook
@@ -24,7 +24,6 @@ code_elements = {'functions': function_info, 'classes': class_info, 'variables':
 html = generate_html(code_elements)
 
 out_loc='examples/wikis/'
-with open(out_loc + 'CE.txt', 'w') as f:
-    f.write(code_elements)
 with open(out_loc + 'GAN.html', 'w') as f:
     f.write(html)
+x

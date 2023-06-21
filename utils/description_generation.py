@@ -1,6 +1,6 @@
 import openai
 
-openai.api_key = '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'
+openai.api_key = '<OPENAI_API_KEY>'
 
 def generate_description(name, type_, code, code_elements, args=None, bases=None):
     prompt = f"I have a piece of Python code and I need to understand the {type_} named {name}. Here is the code:\n\n{code}\n\n"
