@@ -1,0 +1,293 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+
+<body>
+    <h1>Generator</h1>
+    <p>The class named as <ast.ClassDef object at 0x7f88c862cc10> corresponds to the Generator class in the provided
+            code.<br><br>In the context of Generative Adversarial Networks (GANs), the Generator class is an important
+            component responsible for generating new data instances that resemble the training data. The model seeks to
+            perform this task in a manner that makes the generated instances indistinguishable.<br><br>Here are some
+            step by step explanations about this class:<br><br>1. Initialization (__init__ method): When an instance of
+            the Generator class is created, we initialize it with a name. This name is used further in the scope of the
+            TensorFlow variable and operations associated with this instance.<br><br>2. Call method (__call__ method):
+            This magic method in Python, equips the class instances with callable behaviour. In the Generator class, the
+            __call__ method defines the architecture of the generator network. It takes as input noise variables 'Z',
+            and passes them through several layers including linear, deconvolutional and instance normalization layers.
+            This chain of layers transforms the input noise into a generated image. <br><br>3. Variable retrieval (var
+            property): The var method is a property (indicated by the @property decorator) that retrieves the variables
+            of the generator network. This is done using the tf.get_collection function of TensorFlow by using the scope
+            of the variable as the name given during the initialization of the class instance.<br><br>The Generator
+            class is a blueprint from which instances of generators can be made. These instances, containing noise as
+            input, are capable of producing generated images while being differentiable with respect to their
+            parameters. The differentiation property enables training of the generator model using gradient-based
+            optimization methods.</p>
+    <h1>Discriminator</h1>
+    <p>The class `<ast.ClassDef object at 0x7f88c862cbe0>` represents the "Discriminator" class in the provided code.
+            This class plays a vital role in the architecture of Generative Adversarial Networks (GANs).<br><br>1.
+            Initialization (__init__): The Discriminator class is initialized with a name that is given while creating
+            an instance of the class.<br><br>2. Call method (__call__): This method defines what the class instance will
+            do when it is called. For the Discriminator class, when an instance is called, it takes image inputs and
+            performs a series of operations. The boolean value of parameter 'reuse' determines whether to reuse the
+            variables in the function or to create new ones. The boolean value of parameter 'is_sn' determines whether
+            to use spectral normalization or not.<br><br>3. Layering: The Discriminator uses convolutional layers to
+            perform its operations. Each convolution is followed by Instance Normalization and a leaky ReLU activation
+            function. The convolutional layers gradually reduce the size of the input while increasing the depth of the
+            feature maps. <br><br>4. Output: It ultimately classifies the input image as real or fake. It outputs a
+            single value indicating the authenticity of the input image. If the parameter 'is_sn' is True, the weights
+            of the convolutional layers are spectral normalized. This moderates the Lipschitz constant of the
+            Discriminator function to stabilize the network.<br><br>5. The `var` method: A property decorator that will
+            be executed when an instance of this class tries to access the attribute 'var'. It returns all the learned
+            variables of the discriminator, which are useful while training a GAN.<br><br>In a GAN, the Discriminator is
+            trained to distinguish between real and fake images. In each iteration of the training cycle, the Generator
+            tries to generate images that look real, and the Discriminator tries to distinguish between these fake
+            (generated) and real images. Such a cycle leads to the Generator being able to generate images that closely
+            resemble the real images. The Discriminator's final output is a probability that the input image is real.
+            This class definition forms the backbone structure for such a Discriminator.</p>
+    <h1>GAN</h1>
+    <p>The class `<ast.ClassDef object at 0x7f88a9a00280>` refers to the `GAN` class in the given Python code. This
+            class is fundamental to the operation of the program, providing the core functionality around the Generative
+            Adversarial Network (GAN) concept. The GAN class has methods that declare the Generator and Discriminator
+            components, calculate losses, handle optimization operations, and manage the training process.<br><br>Here
+            is a step-by-step walkthrough of the class:<br><br>1. Initialization (`__init__`): The constructor of the
+            GAN class begins by creating placeholders for input data (self.Z and self.img). It then initializes a
+            `Discriminator` and `Generator` instance. The `Discriminator` and `Generator` classes are custom classes
+            defined earlier in the code. The constructor then sets up the fake image that is generated by passing Z to
+            the generator. Depending on the GAN type that has been defined, it sets up different types of loss functions
+            (e.g., for DCGAN, WGAN, WGAN-GP, LSGAN, SNGAN, RSGAN, RaSGAN), optimization methods, and also additional
+            operations needed by some specific GAN types (e.g., WGAN's weight clipping). Finally, it initializes a
+            `tf.Session` instance and global variables.<br><br>2. Call (`__call__`): This method determines the actual
+            training procedure of the GAN. It first initializes a TensorFlow `Saver` to save the model parameters
+            periodically. Then it loads the face data from a .mat file. After that, it implements an epoch-loop to train
+            the GAN: For each batch of images (normalized to [0, 1]), it first generates a random noise vector (Z). Then
+            it calculates discriminator and generator loss, and optimizes discriminator and generator parameters. If the
+            current GAN type is "WGAN", it additionally ensures weights are clipped after discriminator's optimization.
+            For each 100 batches, it evaluates the generator by producing images from another batch of random Z, scales
+            the fake images back to [0, 255], and saves those images. At the end of each 10 epochs, it saves the model's
+            parameters.<br><br>3. Variables (`var`): This is a property method that retrieves all the global variables
+            within the current scope. This is important for the train operations in the constructor method, as you would
+            only want to update the respective parameters of the discriminator or generator during their own
+            optimization steps.<br><br>In summary, the `GAN` class constructs and manages the overall Generative
+            Adversarial Network, consisting of the `Generator` and `Discriminator`. This class is responsible for
+            setting up the required components, implementing the training process, and managing model saving and
+            restoration.</p>
+    <h2>deconv</h2>
+    <p>Arguments: inputs, shape, strides, out_num, is_sn</p>
+    <p>The function represented by the `<ast.FunctionDef object at 0x7f88c8638970>` is named `deconv` in the provided
+            Python code. This function is employed for performing a 2D transposed convolution operation, also known
+            familiarly as a deconvolution operation. This deconvolution process is most commonly utilized in image
+            processing tasks and particularly relevant in deep learning architectures like Convolutional
+            Networks.<br><br>The `deconv` function receives as input the following arguments:<br><br>1. `inputs` - This
+            is the input tensor that the deconvolution operation will use.<br>2. `shape` - This denotes the shape of the
+            filter. <br>3. `strides` - This specifies the stride of the sliding window for each dimension of
+            `inputs`.<br>4. `out_num` - This determines the output tensor of the transposed convolution.<br>5. `is_sn` -
+            This is a boolean flag which if set to `True`, will apply spectral normalization to the filters.<br><br>In
+            the function body, it first declares variables `filters` and `bias`, initialized by random values and 0
+            respectively, where `shape` serves as the shape of `filters`. <br><br>Afterwards, it checks the `is_sn`
+            flag. If `is_sn` is `True`, the function performs a deconvolution operation with spectral normalization
+            applied to the `filters`. If `is_sn` is `False`, the function performs a regular deconvolution
+            operation.<br><br>In both cases, the function finally returns the result of the deconvolution operation
+            after adding `bias`.</p>
+    <h2>conv</h2>
+    <p>Arguments: inputs, shape, strides, is_sn</p>
+    <p>The function `<ast.FunctionDef object at 0x7f88c8638940>` corresponds to the `conv` function in the provided
+            Python code. <br><br>The purpose of this function is to apply a convolution operation on the input data
+            using the specified filters, strides, and whether to apply spectral normalization.<br><br>The function
+            accepts the following parameters:<br><br>- `inputs`: These are the data inputs on which our conv operation
+            is performed.<br>- `shape`: This variable represents the shape of the filters/kernels that are to be used in
+            the convolution operation.<br>- `strides`: Strides are the number of steps that our convolution filter
+            moves. It dictates the degree of movement over the input matrix.<br>- `is_sn`: This is a boolean value that
+            indicates whether Spectral Normalization (SN) is applied on the filter or not.<br><br>Here is a step-by-step
+            explanation of what the `conv` function does:<br><br>1. It first declares a set of filters with the provided
+            shape. The initializer for these filters is a random normal initializer with a standard deviation of 0.02.
+            <br><br>2. A bias is also created with the same number of elements as the last element of shape, using a
+            constant initializer of 0. <br><br>3. Subsequently, it checks whether spectral normalization is applied or
+            not, based on the value of `is_sn`.<br><br>4. If `is_sn` is set to true, it applies Spectral Normalization
+            (SN) to the filters and then performs the convolution operation with these filters on the inputs. The bias
+            is then added. <br><br>5. If `is_sn` is set to false, it directly applies the convolution operation to the
+            inputs using the filters without applying Spectral Normalization, and then the bias is added.<br><br>6. The
+            resulting tensor after the convolution operation and bias addition is then returned as the
+            output.<br><br>The purpose of using spectral normalization is to stabilize the training of the neural
+            network by ensuring that every layer in the network satisfies the Lipschitz constraint, which is a condition
+            that suppresses the excessive growth of function values.</p>
+    <h2>fully_connected</h2>
+    <p>Arguments: inputs, num_out, is_sn</p>
+    <p>The function with ast reference <ast.FunctionDef object at 0x7f88c8625f10> in your code is named
+            `fully_connected`. This function is used to create a fully connected layer for a neural network.
+            <br><br>Arguments:<br>- `inputs`: These are the input data for the layer. It can be a vector, a matrix, or a
+            tensor depending on the nature and structure of your dataset or the layer receiving the connections.<br>-
+            `num_out`: This argument defines the number of output neurons for the fully connected layer.<br>- `is_sn`:
+            This is a boolean argument. You can set `is_sn` to True or False depending on whether you want to apply
+            Spectral Normalization to the weights of the layer. Spectral Normalization is a weight normalization
+            technique used to stabilize the training of Generative Adversarial Networks (GANs).<br><br>Operations:<br>-
+            First, it defines a weight matrix `W` with shape `[inputs.shape[-1], num_out]`. The weight matrix will be
+            initialized with random values from a normal distribution using the TensorFlow random_normal_initializer
+            method with 0.02 as the standard deviation.<br>- Then, it creates a bias vector `b` of length `num_out` and
+            initializes it with zeros using the TensorFlow constant_initializer.<br>- It then checks if Spectral
+            Normalization (`is_sn`) is True. If yes, it applies Spectral Normalization to the weight matrix 'W' and then
+            performs the matrix multiplication operation between the inputs and the normalized weight matrix 'W'. It
+            also adds the bias vector to the result.<br>- If 'is_sn' is False, it skips the Spectral Normalization step
+            and directly performs the matrix multiplication between the inputs and the weight matrix 'W' and adds the
+            bias vector.<br>- Finally, the function returns the result of these operations.<br><br>Note that a fully
+            connected layer connects each neuron in one layer to every neuron in the next layer. This makes it most
+            commonly used in the last layers of a network, performing high level reasoning such as classification based
+            on the learned features from previous layers.</p>
+    <h2>leaky_relu</h2>
+    <p>Arguments: inputs, slope</p>
+    <p>The function corresponding to <ast.FunctionDef object at 0x7f88c8627e20> is `leaky_relu`. This function is an
+            implementation of the Leaky ReLU (Rectified Linear Unit) activation function. Leaky ReLU is a mathematical
+            function that is used in the construction of neural networks. It is typically used as a form of non-linear
+            data transformation which can help the network learn and understand complex patterns in the data.<br><br>The
+            function `leaky_relu` takes two arguments:<br><br> 1. `inputs`: This argument is expected to be data that
+            the neuron is processing. It could be input data or a transformed version of the input data, processed by
+            prior layers in a neural network.<br> <br> 2. `slope`: This is a hyperparameter for the Leaky ReLU function.
+            In the Leaky ReLU function, if the input is less than zero, the function returns the product of the input
+            and the slope. <br><br>Written mathematically, the Leaky ReLU function is expressed as:<br><br> f(x) =
+            max(slope*x, x)<br><br>The function `leaky_relu` calculates the output based on this mathematical
+            expression, forming one of the building blocks of the neural network. Therefore, in the given Python code,
+            it's used to add non-linearity into the network that aids in learning from the input data. <br><br>In the
+            context of this piece of code which seems to be implementing a Generative Adversarial Network (GAN), the
+            Leaky ReLU activation function is often used in the discriminator part of the network.</p>
+    <h2>spectral_norm</h2>
+    <p>Arguments: name, w, iteration</p>
+    <p>The function identified as `<ast.FunctionDef object at 0x7f88c8627b80>` corresponds to the `spectral_norm`
+            function in the provided Python code. <br><br>Here is a brief explanation of what the `spectral_norm`
+            function in the given Python code does:<br><br>The spectral_norm function implements the spectral
+            normalization technique in the context of Generative Adversarial Networks (GANs). This function takes three
+            parameters: `name`, `w`, and `iteration`.<br><br>- `name`: This parameter is used to define the scope for
+            the TensorFlow variables defined within the function. By controlling the scope of TensorFlow variables, you
+            can manage which variables are reused or not in the TensorFlow computation graph.<br><br>- `w`: This
+            parameter represents a weight variable, which the function will normalize. The main purpose of spectral
+            normalization is to constrain the spectral norm (largest singular value) of the weight matrix of each layer
+            in the neural network to be close to 1. This constraint helps to stabilize the training of GANs.<br><br>-
+            `iteration`: This parameter denotes the number of times power iteration method is used for approximating the
+            spectral norm. Power iteration is an eigenvalue algorithm: given a diagonalizable matrix `w`, the algorithm
+            will produce a number, which is the greatest (in absolute value) eigenvalue of `w`.<br><br>In the context of
+            the `spectral_norm` function, these three arguments are used as follows:<br>1. The weight `w` is reshaped
+            into a 2-D tensor.<br>2. Spectral normalization is applied to the weight. The function calculates the
+            spectral norm of the weight `w` using power iteration method. It essentially tries to standardize the
+            weights such that the largest singular value of the weight matrix of each layer in the neural network is
+            close to 1.<br>3. With the calculated spectral norm, the function normalizes the weight `w` and returns the
+            spectrally normalized weights. <br><br>Significance:<br>Spectral normalization is a technique to stabilize
+            the learning dynamics of GANs. By applying spectral normalization to the generator and discriminator, it
+            constrains their Lipschitz constant, thereby preventing issues like mode collapse, vanishing gradients and
+            ensuring that the generator function has sufficient expressive power.<br><br>A key point to note is that
+            this function is designed to be used with TensorFlow, a popular open-source library used for implementing
+            Machine Learning algorithms. `${name}` is in fact used to specify the name of the TensorFlow variable scope.
+            This can be useful while saving or restoring models, where we need names to all variable in the graph. This
+            can also be used to share variables across different parts of the code.</p>
+    <h2>mapping</h2>
+    <p>Arguments: x</p>
+    <p>The function at address <ast.FunctionDef object at 0x7f88c8631d90> is named `mapping`. This function takes an
+            argument 'x'. 'x' is expected to be a numerical tensor of some kind - perhaps an array or image
+            data.<br><br>The purpose of the `mapping` function is to normalize the data in 'x' to a fixed range,
+            specifically 0 to 255. In image processing, this normalization is often performed on pixel values for
+            consistency of treatment across different images and to ensure compatible data ranges for further
+            manipulations or analysis.<br><br>The logic of the function breaks down into the following steps:<br><br>1.
+            It calculates the maximum and minimum values in 'x', storing them in `max` and `min` respectively.<br><br>2.
+            It then scales the original data 'x' by subtracting `min` and multiplying by 255.0. This scales the data so
+            all values lie between 0 and 255.<br><br>3. This scaling is normalized by dividing by `(max - min +
+            epsilon)`, where `epsilon` is a very small number (1e-14 as defined at the start of the script). This
+            `epsilon` is added to avoid a potential division by zero error if max and min happened to be the
+            same.<br><br>4. The function then returns the mapped version of 'x' which will now lie in the range
+            0-255.<br><br>This function is particularly useful in image-based tasks where pixel intensities are
+            typically normalized to lie within this range. In the context of this code, this function is likely used to
+            normalize the pixel values of generated images.</p>
+    <h2>instanceNorm</h2>
+    <p>Arguments: inputs</p>
+    <p>The function with the reference <ast.FunctionDef object at 0x7f88c8631850> corresponds to the function named
+            'instanceNorm'. Thus, I am going to explain what the function 'instanceNorm' does.<br><br>The 'instanceNorm'
+            function is a type of normalization commonly used in machine learning algorithms. This function takes an
+            input, calculates the mean and variance across the channels of the input, and then normalizes the input
+            using these values.<br><br>The detailed steps are as follows:<br>1. The function takes one argument
+            'inputs', which should be a matrix containing the data to be normalized.<br>2. Using the TensorFlow function
+            'tf.nn.moments', it computes the mean and variance of 'inputs'. The argument 'axes=[1, 2]' specifies that
+            the mean and variance are to be computed over the width and height of each channel in the image, and the
+            argument 'keep_dims=True' ensures that the results have the same number of dimensions as the input.<br>3. It
+            then defines two trainable variables 'scale' and 'shift' with the same shape as the mean. These variables
+            are initialized to '1.0' and '0.0' respectively. They are used to scale and shift the normalized data.<br>4.
+            In the return statement, the inputs are normalized by subtracting the mean, scaling them with 'scale', and
+            then dividing by the square root of the variance added to a small constant 'epsilon' to avoid division by
+            zero. The result is then shifted by 'shift'.<br><br>This process of normalization helps in faster and more
+            stable training of neural networks. It normalizes the features of the inputs over the spatial dimensions,
+            ensuring that the range of feature responses is similar across different spatial locations.</p>
+    <h2>l2_norm</h2>
+    <p>Arguments: v, eps</p>
+    <p>The function `<ast.FunctionDef object at 0x7f88c8615b50>` corresponds to the function `l2_norm(v, eps=1e-12)` in
+            the given Python code. <br><br>The `l2_norm` function calculates the L2 norm (also known as Euclidean norm)
+            of a given vector `v`. The L2 norm is a measure of the length or magnitude of a vector and it is calculated
+            as the square root of the sum of the squared vector elements. This function is often used in machine
+            learning algorithms including in deep learning models where it can be used to regularize a model (prevent
+            overfitting by penalizing larger weights).<br><br>In this specific function, `v` is the input vector. The L2
+            norm is calculated as `v / (tf.reduce_sum(v ** 2) ** 0.5 + eps)`. Here, `tf.reduce_sum(v ** 2)` calculates
+            the sum of the squares of all elements in `v`. Taking the square root (`** 0.5`) gives the L2 norm of the
+            vector. This value is added to a small constant `eps` (for numerical stability to avoid dividing by zero)
+            and then the original vector `v` is divided by this result.<br><br>This normalization operation forces the
+            length of the output vector to be 1 (or very close to 1 for numerical reasons), and the direction of the
+            original vector is preserved. This is useful in some applications where it may be beneficial to normalize
+            vectors to ensure consistent scale or magnitude. <br><br>In context of Generative Adversarial Network (GAN)
+            in the given Python code, `l2_norm` function is used in the `spectral_norm` function for the normalization
+            of the weights of the neural network.</p>
+    <h2>__init__</h2>
+    <p>Arguments: self</p>
+    <p>It seems there is a confusion as the "<ast.FunctionDef object at 0x7f88a9a002b0>" is a low-level function
+            description generated by the Python `ast` (Abstract Syntax Trees) module, and it's not actually a part of
+            the code you provided. The issue is that you are trying to access human-/readable Python code, using a
+            representation that is used internally by Python.<br><br>According to the extracted elements of the code you
+            provided and considering standard Python code, the `__init__` function seems to be mapped to the given AST
+            object.<br><br>Here's a brief explanation of the `__init__` function:<br><br>The function `__init__` is a
+            special method in Python classes, known as a constructor. This method is called when an object is created
+            from the class and it allows the class to initialize the attributes of the class.<br><br>In the given code,
+            `__init__()` functions are found in the `Generator`, `Discriminator`, and `GAN` classes. These initializers
+            essentially assign the given name to the class instance and initialize some variables where
+            necessary.<br><br>For example, in the `Generator` class `__init__` method, a name is set for the
+            generator:<br><br>```python<br>class Generator:<br> def __init__(self, name):<br> self.name =
+            name<br>```<br>Here `self` refers to the instance of the class. The `name` value will be set when a new
+            instance of `Generator` is created.<br><br>Please look into your queries about the "ast.FunctionDef object
+            at 0x7f88a9a002b0" and provide a function's name or its functionality in order to get a detailed
+            description. The Python `ast` module isn't designed for reading the code; instead it's for modifying the
+            Python syntax tree of the code.</p>
+    <h2>__call__</h2>
+    <p>Arguments: self</p>
+    <p>The function you've provided is the "__call__" method within the `Generator` class. This function's primary
+        responsibility is to instruct Python on what to do when an instance of the `Generator` class is called like a
+        function. <br><br>Firstly, it defines a TensorFlow scope using the `tf.variable_scope` function. When you
+        execute the statement `with tf.variable_scope(name_or_scope=self.name, reuse=False):`, the statements within
+        this block will be executed within this new scope. These statements define the structure and operations of the
+        neural network within the `Generator` class.<br><br>The `__call__` method first constructs a reshaped tensor
+        using `fully_connected` function with "Z" as an input and passed through ReLU activation function. "Z" here is
+        the latent variable (vector of noise) passed into the generator.<br><br>Then the `__call__` method will apply a
+        series of deconvolutional (transposed convolutional) layers to the data: it first de-convolves the reshaped
+        tensor in a block named 'deconv1', then applies instance normalization and passes the output through a ReLU
+        function. This is then repeated with deconvolution blocks 'deconv2' and 'deconv3'.<br><br>If the global `img_H`
+        equals to 32, the method continues to a 'deconv4' deconvolution block where it does not perform ReLU activation,
+        instead it applies the tanh activation function. The processed tensor is then returned.<br><br>Else, if `img_H`
+        is not equals to 32, it performs one more deconvolution step, 'deconv4'. This acts very similar to the previous
+        'deconv4' operation, involving a deconvolution step followed by a tanh activation function.<br><br>Finally, if
+        `img_H` equals 64, the preprocessed tensor goes through is returned for further usage. <br><br>Overall,
+        `__call__` function in the context of `Generator` class constructs the generator of the Generative Adversarial
+        Network (GAN) by stacking several layers of neural network operations on the input tensor, thereby transforming
+        it into an output tensor. This method is utilized during the forward pass of data through the generator network.
+        The output of this method (the output tensor) represents the generated image.</p>
+    <h2>var</h2>
+    <p>Arguments: self</p>
+    <p>Given that the code elements you've extracted don't provide the names of the functions but their memory locations
+        (like `<ast.FunctionDef object at 0x7f88a99e00a0>`), it's impossible to directly correlate this to the specific
+            function in your provided code.<br><br>However, based on the given arguments `self` and the information it
+            maps to, I can deduce that this could correspond to the `var` function present in the Generator and
+            Discriminator classes.<br><br>Here is the description of what this function named `var` does:<br><br>This
+            function, `var`, is a property function in the Generator and Discriminator classes. It doesn't take any
+            explicit arguments apart from `self`, which represents the instance of the class where `var` is being
+            called.<br><br>The role of this function is to retrieve the trainable variables (weights and biases)
+            associated with the corresponding Generator or Discriminator instance. Instance here means an object created
+            from these classes. The TensorFlow function tf.get_collection is utilized to achieve this. The specific
+            variables retrieved are those within the scope of the instance's name.<br><br>This function returns a list
+            of TensorFlow variables associated with the specific instance of the Generator or Discriminator, and these
+            variables are categorized under the "GLOBAL_VARIABLES" collection in TensorFlow. Retrieving these variables
+            can be useful for various operations, including but not limited to, training, saving or loading the model.
+    </p>
+</body>
+
+</html>

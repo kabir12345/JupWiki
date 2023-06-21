@@ -1,0 +1,35 @@
+body {
+    font-family: Arial, sans-serif;
+    margin:10px;
+}
+
+h1 {
+    color: #333;
+}
+
+h2 {
+    color: #666;
+}
+
+p {
+    line-height: 1.6;
+    font-size:5px !important;
+    font-weight: light;
+    font-variant: normal;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+#title
+{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    
+}
